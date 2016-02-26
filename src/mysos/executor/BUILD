@@ -10,6 +10,8 @@ python_library(
         "//3rdparty:twitter.common.log",
         "//3rdparty:twitter.common.quantity",
         "//3rdparty:twitter.common.zookeeper",
+        "//3rdparty:pyyaml",
         "//src/mysos/common",
-    ]
+    ],
+    resources = zglobs('files/**/*.sh'),
 )
