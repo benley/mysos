@@ -12,15 +12,15 @@ timeout=$3
 waited=1
 while true
 do
-  if [ -f $path ]; then
-    listen=`netstat -lnt | grep $port | wc -l`
+  if [ -f "$path" ]; then
+    listen=$(netstat -lnt | grep -c "$port")
     if [ "x$listen" = "x1" ]; then
       exit 0
     fi
   fi
   sleep 1
-  waited=`expr $waited + 1`
-  if [ $waited -ge $timeout ]; then
+  waited=$(expr $waited + 1)
+  if [ "$waited" -ge "$timeout" ]; then
     exit 1
   fi
 done

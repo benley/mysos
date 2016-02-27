@@ -13,7 +13,7 @@ admin_user=$5
 admin_passwd=$6
 
 # Stop and reset the slave.
-mysql -u root -P $port -h $host -e "STOP SLAVE; RESET SLAVE ALL;
+mysql -u root -P "$port" -h "$host" -e "STOP SLAVE; RESET SLAVE ALL;
 
 # Put the master in read-write mode.
 SET GLOBAL read_only = 0; UNLOCK TABLES;
