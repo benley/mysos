@@ -103,7 +103,11 @@ class MySQLCluster(object):
     self.master_id = None  # MemberID of the MySQL master.
     self.tasks = {}  # {TaskID : MySQLTask} mappings
     self.next_epoch = 0  # Monotonically increasing number after each master change.
-    self.next_id = 0  # Monotonically increasing number for unique task IDs.
+
+    # next_id is used to pick the server_id, and mysql requires server_id to be >= 1 in order to do
+    # replication.  Furthermore, in MySQL 5.6 if the server_id is set to 0 or left unset, the server
+    # will default it to 1 when setting up replication, which breaks things.  So, let's start at 1.
+    self.next_id = 1  # Monotonically increasing number for unique task IDs.
 
   @property
   def active_tasks(self):
