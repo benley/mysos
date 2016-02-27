@@ -1,4 +1,5 @@
 import os
+import socket
 import tempfile
 
 from mysos.common import pkgutil, zookeeper
@@ -175,6 +176,12 @@ def proxy_main():
            "default containerizer.")
 
   app.add_option(
+      '--hostname',
+      dest='hostname',
+      default=socket.getfqdn(),
+      help="Hostname used to advertise the scheduler in the mesos UI.")
+
+  app.add_option(
       '--verbose',
       dest='verbose',
       default=None,
@@ -277,7 +284,9 @@ def proxy_main():
           name=FRAMEWORK_NAME,
           checkpoint=True,
           failover_timeout=framework_failover_timeout.as_(Time.SECONDS),
-          role=options.framework_role)
+          role=options.framework_role,
+          hostname=options.hostname,
+          webui_url="http://%s:%s/" % (options.hostname, options.api_port))
       if fw_principal:
         framework_info.principal = fw_principal
       state = Scheduler(framework_info)
