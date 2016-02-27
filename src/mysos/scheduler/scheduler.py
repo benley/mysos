@@ -109,6 +109,7 @@ class MysosScheduler(mesos.interface.Scheduler, Observable):
     self._backup_store_args = backup_store_args
     self._executor_environ = executor_environ
     self._executor_source_prefix = executor_source_prefix
+    self._docker_image = docker_image
 
     self._driver = None  # Will be set by registered().
 
