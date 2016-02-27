@@ -55,6 +55,7 @@ class MySQLClusterLauncher(object):
       executor_environ=None,
       executor_source_prefix=None,
       framework_role='*',
+      docker_image=None,
       query_interval=Amount(1, Time.SECONDS)):
     """
       :param driver: Mesos scheduler driver.
@@ -98,6 +99,7 @@ class MySQLClusterLauncher(object):
     self._backup_store_args = backup_store_args
     self._executor_environ = executor_environ
     self._executor_source_prefix = executor_source_prefix
+    self._docker_image = docker_image
 
     # Used by the elector.
     self._query_interval = query_interval
@@ -283,6 +285,22 @@ class MySQLClusterLauncher(object):
 
     task.executor.executor_id.value = task_id  # Use task_id as executor_id.
     task.executor.name = EXECUTOR_NAME
+
+    if self._docker_image:
+      container = mesos_pb2.ContainerInfo()
+      container.type = 1  # DOCKER
+
+      keyvol = container.volumes.add()
+      keyvol.container_path = self._admin_keypath
+      keyvol.host_path = self._admin_keypath
+      keyvol.mode = 2  # RO
+
+      docker = mesos_pb2.ContainerInfo.DockerInfo()
+      docker.image = self._docker_image
+      docker.network = 1  # HOST
+
+      container.docker.MergeFrom(docker)
+      task.executor.container.MergeFrom(container)
 
     source = [self._cluster.name, str(server_id)]
     if self._executor_source_prefix and self._executor_source_prefix.strip('.'):

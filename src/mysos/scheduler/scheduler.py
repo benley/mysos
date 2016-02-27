@@ -67,6 +67,7 @@ class MysosScheduler(mesos.interface.Scheduler, Observable):
       backup_store_args=None,
       executor_environ=None,
       executor_source_prefix=None,
+      docker_image=None,
       framework_role='*'):
     """
       :param state: The Scheduler object.
@@ -83,6 +84,7 @@ class MysosScheduler(mesos.interface.Scheduler, Observable):
       :param backup_store_args: See flags.
       :param executor_environ: See flags.
       :param executor_source_prefix: See flags.
+      :param docker_image: See flags.
       :param kazoo: The Kazoo client for communicating MySQL cluster information between the
                     scheduler and the executors.
       :param zk_url: ZooKeeper URL for used by the scheduler and the executors to access ZooKeeper.
@@ -271,6 +273,7 @@ class MysosScheduler(mesos.interface.Scheduler, Observable):
           backup_store_args=self._backup_store_args,
           executor_environ=self._executor_environ,
           executor_source_prefix=self._executor_source_prefix,
+          docker_image=self._docker_image,
           framework_role=self._framework_role)
 
       self._metrics.cluster_count.increment()

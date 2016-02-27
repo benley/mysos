@@ -168,6 +168,13 @@ def proxy_main():
            "preceding period if <prefix> is empty")
 
   app.add_option(
+      '--docker_image',
+      dest='docker_image',
+      default=None,
+      help="Name of a docker image in which to launch executors. If unset, tasks will use the "
+           "default containerizer.")
+
+  app.add_option(
       '--verbose',
       dest='verbose',
       default=None,
@@ -291,6 +298,7 @@ def proxy_main():
         backup_store_args=options.backup_store_args,
         executor_environ=options.executor_environ,
         executor_source_prefix=options.executor_source_prefix,
+        docker_image=options.docker_image,
         framework_role=options.framework_role)
 
     RootMetrics().register_observable('scheduler', scheduler)
