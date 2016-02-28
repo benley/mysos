@@ -73,6 +73,7 @@ class MySQLTaskControl(TaskControl):
       :param cluster_user: The Unix account that mysqld will run as and also the MySQL username.
       :param password: The MySQL password associated with 'cluster_user' in MySQL.
       :param server_id: The ID that identifies the MySQL instance.
+      :param admin_keypath: Path to the key file with MySQL admin credentials.
       :param buffer_pool_size: For the 'innodb_buffer_pool_size' variable in MySQL options.
     """
     if not isinstance(sandbox, Sandbox):
